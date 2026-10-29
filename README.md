@@ -122,3 +122,19 @@ The exact environment variables and database setup depend on the backend configu
 
 
 
+
+
+\### Environment Configuration
+
+
+
+1\. Copy `.env.example` to a new file named `.env`.
+
+2\. Update the database credentials in `.env`.
+
+3\. Set a strong, unique `JWT\_SECRET`.
+
+4\. Make sure MySQL is running and the `wholesale\_portal` database and required tables exist.
+
+5\. Never upload the actual `.env` file to GitHub.
+
