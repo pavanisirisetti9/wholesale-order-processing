@@ -61,5 +61,33 @@ async function registerSupplier(req, res) {
     });
   }
 }
+async function getSuppliers(req, res) {
+  try {
+    const [suppliers] = await pool.query(
+      `SELECT
+        supplier_id,
+        user_id,
+        company_name,
+        phone,
+        address,
+        verification_status,
+        created_at
+       FROM suppliers
+       ORDER BY supplier_id DESC`
+    );
 
-module.exports = { registerSupplier };
+    return res.status(200).json({
+      success: true,
+      message: 'Suppliers fetched successfully',
+      data: suppliers,
+    });
+  } catch (error) {
+    console.error('Get suppliers error:', error.message);
+
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to fetch suppliers',
+    });
+  }
+}
+module.exports = { registerSupplier, getSuppliers };

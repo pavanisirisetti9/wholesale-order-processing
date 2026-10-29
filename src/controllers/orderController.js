@@ -1,4 +1,3 @@
-
 const pool = require('../config/db');
 
 async function createOrder(req, res) {
@@ -307,12 +306,19 @@ async function updateSupplierOrderStatus(req, res) {
       });
     }
 
-    if (
-      supplierOrders.some(order => order.order_status !== 'pending')
-    ) {
+    const currentStatus = supplierOrders[0].order_status;
+
+    const allowedTransitions = {
+      pending: ['confirmed'],
+      confirmed: ['shipped'],
+      shipped: ['delivered'],
+      delivered: []
+    };
+
+    if (!allowedTransitions[currentStatus]?.includes(order_status)) {
       return res.status(400).json({
         success: false,
-        message: 'Only pending orders can be updated'
+        message: `Cannot change order status from ${currentStatus} to ${order_status}`
       });
     }
 
